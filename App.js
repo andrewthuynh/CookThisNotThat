@@ -22,33 +22,15 @@ import {
   createBottomTabNavigator,
   createStackNavigator
 } from 'react-navigation';
+
+import WelcomeScreen from './screens/WelcomeScreen';
+import DashBoardScreen from './screens/DashBoardScreen';
 class App extends Component {
   render() {
     return <AppContainer />;
   }
 }
 export default App;
-
-class WelcomeScreen extends Component {
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button title="Login" onPress={() => this.props.navigation.navigate('Dashboard')} />
-        <Button title="Sign Up" onPress={() => alert('button pressed')} />
-      </View>
-    );
-  }
-}
-
-class DashboardScreen extends Component {
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>DashboardScreen</Text>
-      </View>
-    );
-  }
-}
 
 class Feed extends Component {
   render() {
