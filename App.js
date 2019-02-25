@@ -25,6 +25,8 @@ import {
 
 import WelcomeScreen from './screens/WelcomeScreen';
 import DashBoardScreen from './screens/DashBoardScreen';
+import SignUpScreen from './screens/SignUpScreen';
+
 class App extends Component {
   render() {
     return <AppContainer />;
@@ -37,6 +39,7 @@ class Feed extends Component {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Button title="Go To Detail Screen" onPress={() => this.props.navigation.navigate('Detail')} />
+        <Button title="Logout" onPress={() => this.props.navigation.navigate('Welcome')} />
       </View>
     );
   }
@@ -158,7 +161,8 @@ const AppDrawerNavigator = createDrawerNavigator({
 
 const AppSwitchNavigator = createSwitchNavigator({
   Welcome: { screen: WelcomeScreen },
-  Dashboard: { screen: AppDrawerNavigator }
+  Dashboard: { screen: AppDrawerNavigator },
+  SignUp: { screen: SignUpScreen }
 });
 
 const AppContainer = createAppContainer(AppSwitchNavigator);

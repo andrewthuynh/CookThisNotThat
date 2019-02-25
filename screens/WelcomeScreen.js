@@ -10,6 +10,10 @@ import {
 } from 'react-native';
 
 class WelcomeScreen extends Component {
+    state = {
+        email: undefined,
+        password: undefined,
+    }
     render() {
         return (
 
@@ -21,8 +25,19 @@ class WelcomeScreen extends Component {
                 <Image
                     source={require('../assets/soarsplash2.png')}
                 />
-                <TextInput placeholder='Username' style={styles.inputField} underlineColorAndroid='#D3D3D3' />
-                <TextInput placeholder='Password' style={styles.inputField} underlineColorAndroid='#D3D3D3' />
+                <TextInput 
+                    placeholder='Email' 
+                    style={styles.inputField} 
+                    underlineColorAndroid='#d3d3d3'
+                    onChangeText={(email) => this.setState({email})} 
+                />
+                <TextInput 
+                    placeholder='Password' 
+                    style={styles.inputField} 
+                    underlineColorAndroid='#d3d3d3'
+                    onChangeText={(password) => this.setState({password})} 
+                    secureTextEntry
+                />
                 <View style={{ margin: 7 }} />
                 <Button
                     onPress={() => this.props.navigation.navigate('Dashboard')}
@@ -30,7 +45,7 @@ class WelcomeScreen extends Component {
                 />
                 <View style={{ margin: 15 }} />
                 <Button
-                    onPress={() => this.props.navigation.navigate('Dashboard')}
+                    onPress={() => this.props.navigation.navigate('SignUp')}
                     title="Sign up"
                 />
                 <View style={{ margin: 50 }} />
@@ -52,7 +67,6 @@ const styles = StyleSheet.create({
     inputField: {
         height: 40,
         marginBottom: 20,
-        color: '#000000',
         paddingHorizontal: 10
     },
     button: {
