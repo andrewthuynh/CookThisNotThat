@@ -1,176 +1,44 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
-import Icon from '@expo/vector-icons/Ionicons';
-/**
- * - AppSwitchNavigator
- *    - WelcomeScreen
- *      - Login Button
- *      - Sign Up Button
- *    - AppDrawerNavigator
- *          - Dashboard - DashboardStackNavigator(needed for header and to change the header based on the                     tab)
- *            - DashboardTabNavigator
- *              - Tab 1 - FeedStack
- *              - Tab 2 - ProfileStack
- *              - Tab 3 - SettingsStack
- *            - Any files you don't want to be a part of the Tab Navigator can go here.
- */
-
-import {
-  createSwitchNavigator,
-  createAppContainer,
-  createDrawerNavigator,
-  createBottomTabNavigator,
-  createStackNavigator
-} from 'react-navigation';
-
-import WelcomeScreen from './screens/WelcomeScreen';
-import DashBoardScreen from './screens/DashBoardScreen';
-import SignUpScreen from './screens/SignUpScreen';
+import React, { Component } from "react";
+import { Provider } from "react-redux";
+import store from './store';
+import AppNav from './AppNav';
+import { Font, AppLoading } from 'expo';
 
 class App extends Component {
-  render() {
-    return <AppContainer />;
+
+  state = {
+    fontsAreLoaded: false,
+  };
+  
+  async componentWillMount() {
+    await Font.loadAsync({
+      'Rubik-Black': require('./node_modules/@shoutem/ui/fonts/Rubik-Black.ttf'),
+      'Rubik-BlackItalic': require('./node_modules/@shoutem/ui/fonts/Rubik-BlackItalic.ttf'),
+      'Rubik-Bold': require('./node_modules/@shoutem/ui/fonts/Rubik-Bold.ttf'),
+      'Rubik-BoldItalic': require('./node_modules/@shoutem/ui/fonts/Rubik-BoldItalic.ttf'),
+      'Rubik-Italic': require('./node_modules/@shoutem/ui/fonts/Rubik-Italic.ttf'),
+      'Rubik-Light': require('./node_modules/@shoutem/ui/fonts/Rubik-Light.ttf'),
+      'Rubik-LightItalic': require('./node_modules/@shoutem/ui/fonts/Rubik-LightItalic.ttf'),
+      'Rubik-Medium': require('./node_modules/@shoutem/ui/fonts/Rubik-Medium.ttf'),
+      'Rubik-MediumItalic': require('./node_modules/@shoutem/ui/fonts/Rubik-MediumItalic.ttf'),
+      'Rubik-Regular': require('./node_modules/@shoutem/ui/fonts/Rubik-Regular.ttf'),
+      'rubicon-icon-font': require('./node_modules/@shoutem/ui/fonts/rubicon-icon-font.ttf'),
+    });
+
+    this.setState({ fontsAreLoaded: true });
   }
-}
-export default App;
 
-class Feed extends Component {
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button title="Go To Detail Screen" onPress={() => this.props.navigation.navigate('Detail')} />
-        <Button title="Logout" onPress={() => this.props.navigation.navigate('Welcome')} />
-      </View>
-    );
-  }
-}
+    render() {
 
-class Settings extends Component {
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Settings</Text>
-      </View>
-    );
-  }
-}
-
-class Profile extends Component {
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Profile</Text>
-      </View>
-    );
-  }
-}
-
-const Detail = props => (
-  <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-    <Text>Detail</Text>
-  </View>
-);
-
-const FeedStack = createStackNavigator(
-  {
-    Feed: {
-      screen: Feed,
-      navigationOptions: ({ navigation }) => {
-        return {
-          headerTitle: 'Feed',
-          headerLeft: (
-            <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
-          )
-        };
+      if (!this.state.fontsAreLoaded) {
+        return <AppLoading />;
       }
-    },
-    Detail: {
-      screen: Detail
-    }
-  },
-  {
-    defaultNavigationOptions: {
-      gesturesEnabled: false
+
+      return (
+        <Provider store={store}>
+          <AppNav />
+        </Provider>
+      );
     }
   }
-);
-
-const ProfileStack = createStackNavigator({
-  Profile: {
-    screen: Profile,
-    navigationOptions: ({ navigation }) => {
-      return {
-        headerTitle: 'Profile',
-        headerLeft: (
-          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
-        )
-      };
-    }
-  }
-});
-const SettingsStack = createStackNavigator({
-  Settings: {
-    screen: Settings,
-    navigationOptions: ({ navigation }) => {
-      return {
-        headerTitle: 'Settings',
-        headerLeft: (
-          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
-        )
-      };
-    }
-  }
-});
-
-const DashboardTabNavigator = createBottomTabNavigator(
-  {
-    FeedStack,
-    ProfileStack,
-    SettingsStack
-  },
-  {
-    navigationOptions: ({ navigation }) => {
-      const { routeName } = navigation.state.routes[navigation.state.index];
-      return {
-        header: null,
-        headerTitle: routeName
-      };
-    }
-  }
-);
-const DashboardStackNavigator = createStackNavigator(
-  {
-    DashboardTabNavigator: DashboardTabNavigator
-  },
-  {
-    defaultNavigationOptions: ({ navigation }) => {
-      return {
-        headerLeft: (
-          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
-        )
-      };
-    }
-  }
-);
-
-const AppDrawerNavigator = createDrawerNavigator({
-  Dashboard: {
-    screen: DashboardStackNavigator
-  }
-});
-
-const AppSwitchNavigator = createSwitchNavigator({
-  Welcome: { screen: WelcomeScreen },
-  Dashboard: { screen: AppDrawerNavigator },
-  SignUp: { screen: SignUpScreen }
-});
-
-const AppContainer = createAppContainer(AppSwitchNavigator);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-});
+  export default App;
