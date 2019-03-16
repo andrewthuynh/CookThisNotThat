@@ -9,13 +9,15 @@ import {
     Button,
     Image,
 } from '@shoutem/ui';
-
+import { connect } from 'react-redux';
 
 class FeedScreen extends Component {
 
     render() {
       return (
         <Screen style={styles.container}>
+          <Title>Hey there {this.props.auth.user.name.split(" ")[0]}!</Title>
+          <View style={{ margin: 30 }} />
           <Button onPress={() => this.props.navigation.navigate('Detail')}>
             <Text>Details</Text>
           </Button>
@@ -28,8 +30,6 @@ class FeedScreen extends Component {
     }
   }
 
-  export default FeedScreen;
-
   const styles = StyleSheet.create({
     container: {
       flex: 1, 
@@ -37,3 +37,10 @@ class FeedScreen extends Component {
       justifyContent: 'center'
     },
 });
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(mapStateToProps,null)(FeedScreen);

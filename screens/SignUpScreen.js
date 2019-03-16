@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import axios from "axios";
-import { StyleSheet } from 'react-native';
+import axios from 'axios';
+import { StyleSheet, Alert } from 'react-native';
 import {
     View,
     Screen,
@@ -10,35 +10,53 @@ import {
     Button,
     Image,
 } from '@shoutem/ui';
+import { connect } from 'react-redux';
+import { registerUser, resetErrors } from '../actions/authActions';
+import classnames from 'classnames';
 
 class SignUpScreen extends Component {
+
     state = {
         email: '',
         name: '',
         password: '',
         password2: '',
-        errors: {}
     }
-    registerUser = async () => {
-        const { email, password, password2, name } = this.state
-        const data = {
-            email,
+
+    componentDidMount() {
+        // If logged in and user navigates to Register page, should redirect them to dashboard
+        if (this.props.auth.isAuthenticated) {
+            this.props.navigation.navigate('Dashboard');
+        }
+      }
+
+    register = async () => {
+        const { email, password, password2, name, errors } = this.state
+        const regData = {
             name,
+            email,
             password,
             password2,
         }
         try {
-            console.log(data);
-            this.props.navigation.navigate('Welcome')
+            console.log(regData);
+            await this.props.registerUser(regData);
+            await new Promise((resolve, reject) => setTimeout(resolve, 50));
+            if (Object.keys(this.props.errors).length == 0)
+                this.props.navigation.navigate('Welcome');
+            else{
+                Alert.alert('Check your input!');
+                this.props.resetErrors();
+            }
         } catch (err) {
-            console.log('error signing up: ', err)
+            Alert.alert('Error!');
         }
     }
 
     onChange = e => {
         this.setState({ [e.target.id]: e.target.value });
     };
-    
+
     render() {
         return (
 
@@ -71,7 +89,7 @@ class SignUpScreen extends Component {
                     secureTextEntry
                 />
                 <View style={{ margin: 7 }} />
-                <Button onPress={this.registerUser}>
+                <Button onPress={this.register}>
                     <Text>Register</Text>
                 </Button>
                 <View style={{ margin: 7 }} />
@@ -83,11 +101,10 @@ class SignUpScreen extends Component {
     }
 }
 
-export default SignUpScreen;
-
 const styles = StyleSheet.create({
     container: {
         padding: 20,
+        backgroundColor: '#00e68a'
     },
     button: {
         marginBottom: 20,
@@ -97,3 +114,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     }
 });
+
+const mapStateToProps = state => ({
+    auth: state.auth,
+    errors: state.errors
+});
+
+export default connect(mapStateToProps, { registerUser, resetErrors })(SignUpScreen);
