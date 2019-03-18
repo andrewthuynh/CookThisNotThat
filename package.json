@@ -6,6 +6,7 @@
     "ios": "expo start --ios",
     "eject": "expo eject"
   },
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@shoutem/ui": "^0.23.16",
     "axios": "^0.18.0",
