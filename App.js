@@ -8,30 +8,12 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { AsyncStorage } from 'react-native';
 import { Font, AppLoading } from 'expo';
 
-// Check for token to keep user logged in
-if (AsyncStorage.jwtToken) {
-  // Set auth token header auth
-  const token = AsyncStorage.jwtToken;
-  setAuthToken(token);
-  // Decode token and get user info and exp
-  const decoded = jwt_decode(token);
-  // Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded));
-// Check for expired token
-  const currentTime = Date.now() / 1000; // to get in milliseconds
-  if (decoded.exp < currentTime) {
-    // Logout user
-    store.dispatch(logoutUser());
-    // Redirect to login
-  }
-}
-
 class App extends Component {
 
   state = {
     fontsAreLoaded: false,
   };
-  
+
   async componentWillMount() {
     await Font.loadAsync({
       'Rubik-Black': require('./node_modules/@shoutem/ui/fonts/Rubik-Black.ttf'),
@@ -50,17 +32,40 @@ class App extends Component {
     this.setState({ fontsAreLoaded: true });
   }
 
-    render() {
+  async componentDidMount() {
+    // Check for token to keep user logged in
+    console.disableYellowBox = true;
+    // Set auth token header auth
+    const token = await AsyncStorage.getItem('jwtToken');
+    if (token !== null) {
+      setAuthToken(token);
+      // Decode token and get user info and exp
+      const decoded = jwt_decode(token);
+      // Set user and isAuthenticated
+      store.dispatch(setCurrentUser(decoded));
+      // Check for expired token
+      const currentTime = Date.now() / 1000; // to get in milliseconds
+      if (decoded.exp < currentTime) {
+        // Logout user
+        store.dispatch(logoutUser());
 
-      if (!this.state.fontsAreLoaded) {
-        return <AppLoading />;
+        // Redirect to login
+        window.location.href = "./login";
       }
-
-      return (
-        <Provider store={store}>
-          <AppNav />
-        </Provider>
-      );
     }
   }
-  export default App;
+
+  render() {
+
+    if (!this.state.fontsAreLoaded) {
+      return <AppLoading />;
+    }
+
+    return (
+      <Provider store={store}>
+        <AppNav />
+      </Provider>
+    );
+  }
+}
+export default App;

@@ -61,6 +61,7 @@ class WelcomeScreen extends Component {
                 <TextInput
                     placeholder='Email'
                     onChangeText={(email) => this.setState({ email })}
+                    autoCapitalize='none'
                 />
                 <View style={{ margin: 7 }} />
                 <TextInput

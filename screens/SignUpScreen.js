@@ -41,7 +41,7 @@ class SignUpScreen extends Component {
         try {
             console.log(regData);
             await this.props.registerUser(regData);
-            await new Promise((resolve, reject) => setTimeout(resolve, 50));
+            await new Promise((resolve, reject) => setTimeout(resolve, 100));
             if (Object.keys(this.props.errors).length == 0)
                 this.props.navigation.navigate('Welcome');
             else{
@@ -70,6 +70,7 @@ class SignUpScreen extends Component {
                 <TextInput
                     placeholder='Email'
                     onChangeText={(email) => this.setState({ email })}
+                    autoCapitalize='none'
                 />
                 <View style={{ margin: 7 }} />
                 <TextInput

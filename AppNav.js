@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
-import Icon from '@expo/vector-icons/Ionicons';
 /**
  * - AppSwitchNavigator
  *    - WelcomeScreen
@@ -29,11 +28,13 @@ import SignUpScreen from './screens/SignUpScreen';
 import FeedScreen from './screens/FeedScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import SettingsScreen from './screens/SettingsScreen';
+import LocationDetailScreen from './screens/LocationDetailScreen';
+import { Ionicons } from '@expo/vector-icons';
 
 class AppNav extends Component {
 
   render() {
-    return(
+    return (
       <AppContainer />
     );
   }
@@ -46,29 +47,22 @@ const Detail = props => (
   </View>
 );
 
-const FeedStack = createStackNavigator(
-  {
-    Feed: {
-      screen: FeedScreen,
-      navigationOptions: ({ navigation }) => {
-        return {
-          headerTitle: 'Feed',
-          headerLeft: (
-            <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
-          )
-        };
-      }
-    },
-    Detail: {
-      screen: Detail
+const FeedStack = createStackNavigator({
+  Feed: {
+    screen: FeedScreen,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: 'Feed',
+        headerLeft: (
+          <Ionicons style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
+        ),
+      };
     }
   },
-  {
-    defaultNavigationOptions: {
-      gesturesEnabled: false
-    }
+  LocationDetail: {
+    screen: LocationDetailScreen
   }
-);
+});
 
 const ProfileStack = createStackNavigator({
   Profile: {
@@ -77,11 +71,15 @@ const ProfileStack = createStackNavigator({
       return {
         headerTitle: 'Profile',
         headerLeft: (
-          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
+          <Ionicons style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
         )
       };
     }
+  },
+  Detail: {
+    screen: Detail
   }
+
 });
 const SettingsStack = createStackNavigator({
   Settings: {
@@ -90,25 +88,44 @@ const SettingsStack = createStackNavigator({
       return {
         headerTitle: 'Settings',
         headerLeft: (
-          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
+          <Ionicons style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
         )
       };
     }
   }
 });
 
+const getTabBarIcon = (navigation, focused, tintColor) => {
+  const { routeName } = navigation.state;
+  let IconComponent = Ionicons;
+  let iconName;
+  if (routeName === 'Home') {
+    iconName = `ios-home`;
+    // We want to add badges to home tab icon
+  } else if (routeName === 'Profile') {
+    iconName = `ios-body`;
+  } else if (routeName === 'Settings') {
+    iconName = `ios-settings`;
+  } 
+
+  // You can return any component that you like here!
+  return <IconComponent name={iconName} size={25} color={tintColor} />;
+};
+
 const DashboardTabNavigator = createBottomTabNavigator(
   {
-    FeedStack,
-    ProfileStack,
-    SettingsStack
+    Home: FeedStack,
+    Profile: ProfileStack,
+    Settings: SettingsStack
   },
   {
     navigationOptions: ({ navigation }) => {
-      const { routeName } = navigation.state.routes[navigation.state.index];
+      const { routeName } = navigation.state;
       return {
         header: null,
-        headerTitle: routeName
+        headerTitle: routeName,
+        tabBarIcon: ({ focused, tintColor }) =>
+          getTabBarIcon(navigation, focused, tintColor),
       };
     }
   }
@@ -121,7 +138,7 @@ const DashboardStackNavigator = createStackNavigator(
     defaultNavigationOptions: ({ navigation }) => {
       return {
         headerLeft: (
-          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
+          <Ionicons style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
         )
       };
     }
