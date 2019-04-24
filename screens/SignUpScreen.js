@@ -32,9 +32,10 @@ class SignUpScreen extends Component {
       }
 
     register = async () => {
-        const { email, password, password2, name, errors } = this.state
+        const { email, password, password2, name, username, errors } = this.state
         const regData = {
             name,
+            username,
             email,
             password,
             password2,

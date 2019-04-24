@@ -14,8 +14,34 @@ import {
 } from '@shoutem/ui';
 import { connect } from 'react-redux';
 import { logoutUser } from '../actions/authActions';
+import axios from 'axios';
 
 class ProfileScreen extends Component {
+
+  state= {
+    image: ""
+  }
+
+async componentDidMount() {
+  const username = this.props.auth.user.username;
+
+  try {
+       await axios
+          .get(`http://192.168.1.9:5000/api/users/getInfo?username=${username}`)
+          .then(res => {
+              this.setState({ 
+                user: res.data,
+                image: res.data.image 
+              })
+          })
+          .catch(err =>
+              console.log(err)
+          );
+  } catch(error) {
+      console.log(error);
+  }
+}
+
   render() {
     return (
       <ScrollView>
@@ -25,7 +51,7 @@ class ProfileScreen extends Component {
             <View style={{ margin: 7 }} />
             <Image
               styleName="medium-avatar"
-              source={{ uri: 'https://www.instagram.com/p/Bi5Mi21AHWc/media?size=m' }}
+              source={{ uri: this.state.image}}
             />
             <View style={{ margin: 7 }} />
 

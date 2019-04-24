@@ -34,12 +34,13 @@ class NewEventScreen extends Component {
     const description = this.props.navigation.getParam('description', 'description');
     const image = this.props.navigation.getParam('image', 'https://shoutem.github.io/img/ui-toolkit/examples/image-3.png');
     const details = this.props.navigation.getParam('details', 'filler detail');
+    const id = this.props.navigation.getParam('id', 0);
 
     return (
       <ScrollView>
          <Row styleName="small">
          <Heading>{event}</Heading>
-         <Button><Text>CREATE EVENT</Text></Button>
+         <Button><Text>SAVE</Text></Button>
          </Row>
         <Image
           styleName="large-square"
@@ -49,18 +50,21 @@ class NewEventScreen extends Component {
         <Text>{details}</Text>
         <View style={{ margin: 20 }} />
         <Divider styleName="line" />
+        <Title>DISCUSSION</Title>
+        <TextInput
+          placeholder='New Chat'
+        />
+         <Button
+          styleName=" confirmation"
+        >
+          <Text>SEND</Text>
+        </Button>
+        <View style={{ margin: 20 }} />
+        <Divider styleName="line" />
         <Title>MEMBERS</Title>
         <PersonCard 
           name='Jonny Smith'
           image='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK5phpr1CJxQFRpp0XeZ6riO4ezgAFTqmYmd_wC8e1x67tZCJQ'
-        />
-        <PersonCard 
-          name='Tommy Fin'
-          image='https://images.pexels.com/photos/555790/pexels-photo-555790.png?auto=compress&cs=tinysrgb&dpr=1&w=500'
-        />
-        <PersonCard 
-          name='Sarah Adams'
-          image='https://image.shutterstock.com/image-photo/happy-cheerful-young-woman-wearing-260nw-613759379.jpg'
         />
         <Button
           styleName="secondary confirmation"
@@ -68,20 +72,6 @@ class NewEventScreen extends Component {
         >
           <Text>ADD MEMBER</Text>
         </Button>
-        <View style={{ margin: 20 }} />
-        <Divider styleName="line" />
-        <Title>ABOUT</Title>
-        <TextInput
-          placeholder='About'
-          onChangeText={(about) => this.setState({ about })}
-        />
-        <View style={{ margin: 20 }} />
-        <Divider styleName="line" />
-        <Title>DISCUSSION</Title>
-        <TextInput
-          placeholder='New Chat'
-          style={{ height: 40, borderColor: 'black', borderWidth: 1 }}
-        />
       </ScrollView>
     );
   }

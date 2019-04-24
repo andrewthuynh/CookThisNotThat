@@ -10,7 +10,7 @@ import {
 } from '@shoutem/ui';
 import { StyleSheet } from 'react-native';
 
-const SearchCard = (props) => {
+const EventAddCard = (props) => {
 
     return (
         <View>
@@ -25,4 +25,4 @@ const SearchCard = (props) => {
     )
 }
 
-export default SearchCard;
+export default EventAddCard;

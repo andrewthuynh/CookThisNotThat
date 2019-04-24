@@ -148,7 +148,8 @@ const DashboardTabNavigator = createBottomTabNavigator(
     tabBarOptions: {
       activeTintColor: 'red',
       inactiveTintColor: '#d3d3d3',
-      safeAreaInset: { bottom: 'never', top: 'never' }
+      safeAreaInset: { bottom: 'never', top: 'never' },
+      showIcon: true
     },
   }
 );

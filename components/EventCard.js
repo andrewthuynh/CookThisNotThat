@@ -12,6 +12,19 @@ import { StyleSheet } from 'react-native';
 
 const EventCard = (props) =>{
 
+        async newEvent = () => {
+            await 
+            props.navigation.navigate('NewEvent',
+                        {
+                            name: props.name,
+                            description: props.description,
+                            image: props.image,
+                            details: props.details,
+                            id: props.id
+                          })
+                        }
+        }
+
         return (
             <ImageBackground
                 styleName="featured"
@@ -22,12 +35,14 @@ const EventCard = (props) =>{
                     <Subtitle styleName="sm-gutter-top">{props.description}</Subtitle>
                     <Button 
                         styleName="md-gutter-top" 
-                        onPress={() => props.navigation.navigate('NewEvent',
+                        onPress={() => 
+                        props.navigation.navigate('NewEvent',
                         {
                             name: props.name,
                             description: props.description,
                             image: props.image,
-                            details: props.details
+                            details: props.details,
+                            id: props.id
                           })
                         }
                         >

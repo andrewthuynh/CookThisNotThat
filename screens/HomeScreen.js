@@ -32,7 +32,7 @@ class HomeScreen extends Component {
   async componentDidMount() {
     try{
       axios
-      .get("http://localhost:5000/api/cities?name")
+      .get("http://192.168.1.9:5000/api/cities?name")
       .then(res => {
        this.setState({cities: res.data})
       })

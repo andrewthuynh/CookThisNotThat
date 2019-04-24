@@ -15,7 +15,7 @@ import {
 import axios from 'axios';
 import SearchCard from '../components/SearchCard';
 
-class SearchScreen extends Component {
+class EventAddScreen extends Component {
 
     state = {
         users: []
@@ -83,7 +83,7 @@ class SearchScreen extends Component {
     }
 }
 
-export default SearchScreen;
+export default EventAddScreen;
 
 const styles = StyleSheet.create({
     container: {
