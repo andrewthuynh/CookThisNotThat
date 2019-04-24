@@ -18,6 +18,7 @@ class SignUpScreen extends Component {
 
     state = {
         email: '',
+        username: '',
         name: '',
         password: '',
         password2: '',
@@ -70,6 +71,12 @@ class SignUpScreen extends Component {
                 <TextInput
                     placeholder='Email'
                     onChangeText={(email) => this.setState({ email })}
+                    autoCapitalize='none'
+                />
+                <View style={{ margin: 7 }} />
+                <TextInput
+                    placeholder='Username'
+                    onChangeText={(username) => this.setState({ username })}
                     autoCapitalize='none'
                 />
                 <View style={{ margin: 7 }} />

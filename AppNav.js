@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, SafeAreaView } from 'react-native';
 /**
  * - AppSwitchNavigator
  *    - WelcomeScreen
  *      - Login Button
  *      - Sign Up Button
- *    - AppDrawerNavigator
- *          - Dashboard - DashboardStackNavigator(needed for header and to change the header based on the                     tab)
- *            - DashboardTabNavigator
- *              - Tab 1 - FeedStack
- *              - Tab 2 - ProfileStack
- *              - Tab 3 - SettingsStack
- *            - Any files you don't want to be a part of the Tab Navigator can go here.
+ * - DashboardTabNavigator
+ *    - Tab 1 - FeedStack
+ *    - Tab 2 - ProfileStack
+ *    - Tab 3 - SettingsStack
  */
 
 import {
@@ -25,17 +22,22 @@ import {
 import WelcomeScreen from './screens/WelcomeScreen';
 import DashBoardScreen from './screens/DashBoardScreen';
 import SignUpScreen from './screens/SignUpScreen';
-import FeedScreen from './screens/FeedScreen';
+import HomeScreen from './screens/HomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import LocationDetailScreen from './screens/LocationDetailScreen';
+import NewEventScreen  from './screens/NewEventScreen';
+import SearchScreen from './screens/SearchScreen';
+import LocationsScreen from './screens/LocationsScreen';
 import { Ionicons } from '@expo/vector-icons';
 
 class AppNav extends Component {
 
   render() {
     return (
-      <AppContainer />
+      <SafeAreaView style={styles.safeArea}>
+        <AppContainer />
+      </SafeAreaView>
     );
   }
 }
@@ -47,20 +49,36 @@ const Detail = props => (
   </View>
 );
 
-const FeedStack = createStackNavigator({
-  Feed: {
-    screen: FeedScreen,
+const HomeStack = createStackNavigator({
+  Home: {
+    screen: HomeScreen,
     navigationOptions: ({ navigation }) => {
       return {
-        headerTitle: 'Feed',
-        headerLeft: (
-          <Ionicons style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
-        ),
+        headerTitle: 'Home',
+        headerStyle: {height: 20}
       };
     }
   },
   LocationDetail: {
     screen: LocationDetailScreen
+  },
+  NewEvent: {
+    screen: NewEventScreen
+  },
+  Search: {
+    screen: SearchScreen
+  }
+});
+
+const LocationsStack = createStackNavigator({
+  Settings: {
+    screen: LocationsScreen,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: 'Locations',
+        headerStyle: {height: 20}
+      };
+    }
   }
 });
 
@@ -70,9 +88,7 @@ const ProfileStack = createStackNavigator({
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: 'Profile',
-        headerLeft: (
-          <Ionicons style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
-        )
+        headerStyle: {height: 20}
       };
     }
   },
@@ -87,9 +103,7 @@ const SettingsStack = createStackNavigator({
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: 'Settings',
-        headerLeft: (
-          <Ionicons style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
-        )
+        headerStyle: {height: 20}
       };
     }
   }
@@ -102,6 +116,8 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
   if (routeName === 'Home') {
     iconName = `ios-home`;
     // We want to add badges to home tab icon
+  }else if (routeName === 'Locations') {
+    iconName = `ios-boat`;
   } else if (routeName === 'Profile') {
     iconName = `ios-body`;
   } else if (routeName === 'Settings') {
@@ -114,12 +130,13 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
 
 const DashboardTabNavigator = createBottomTabNavigator(
   {
-    Home: FeedStack,
+    Home: HomeStack,
+    Locations: LocationsStack,
     Profile: ProfileStack,
     Settings: SettingsStack
   },
   {
-    navigationOptions: ({ navigation }) => {
+    defaultNavigationOptions: ({ navigation }) => {
       const { routeName } = navigation.state;
       return {
         header: null,
@@ -127,33 +144,18 @@ const DashboardTabNavigator = createBottomTabNavigator(
         tabBarIcon: ({ focused, tintColor }) =>
           getTabBarIcon(navigation, focused, tintColor),
       };
-    }
+    },
+    tabBarOptions: {
+      activeTintColor: 'red',
+      inactiveTintColor: '#d3d3d3',
+      safeAreaInset: { bottom: 'never', top: 'never' }
+    },
   }
 );
-const DashboardStackNavigator = createStackNavigator(
-  {
-    DashboardTabNavigator: DashboardTabNavigator
-  },
-  {
-    defaultNavigationOptions: ({ navigation }) => {
-      return {
-        headerLeft: (
-          <Ionicons style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
-        )
-      };
-    }
-  }
-);
-
-const AppDrawerNavigator = createDrawerNavigator({
-  Dashboard: {
-    screen: DashboardStackNavigator
-  }
-});
 
 const AppSwitchNavigator = createSwitchNavigator({
   Welcome: { screen: WelcomeScreen },
-  Dashboard: { screen: AppDrawerNavigator },
+  Dashboard: { screen: DashboardTabNavigator },
   SignUp: { screen: SignUpScreen }
 });
 
@@ -164,5 +166,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  }
+  },
+  safeArea: {
+    flex: 1,
+   }
 });
