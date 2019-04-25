@@ -28,7 +28,7 @@ import SettingsScreen from './screens/SettingsScreen';
 import LocationDetailScreen from './screens/LocationDetailScreen';
 import NewEventScreen  from './screens/NewEventScreen';
 import SearchScreen from './screens/SearchScreen';
-import LocationsScreen from './screens/LocationsScreen';
+import EventsScreen from './screens/EventsScreen';
 import { Ionicons } from '@expo/vector-icons';
 
 class AppNav extends Component {
@@ -70,12 +70,12 @@ const HomeStack = createStackNavigator({
   }
 });
 
-const LocationsStack = createStackNavigator({
-  Settings: {
-    screen: LocationsScreen,
+const EventsStack = createStackNavigator({
+  Events: {
+    screen: EventsScreen,
     navigationOptions: ({ navigation }) => {
       return {
-        headerTitle: 'Locations',
+        headerTitle: 'My Events',
         headerStyle: {height: 20}
       };
     }
@@ -116,7 +116,7 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
   if (routeName === 'Home') {
     iconName = `ios-home`;
     // We want to add badges to home tab icon
-  }else if (routeName === 'Locations') {
+  }else if (routeName === 'Events') {
     iconName = `ios-boat`;
   } else if (routeName === 'Profile') {
     iconName = `ios-body`;
@@ -131,7 +131,7 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
 const DashboardTabNavigator = createBottomTabNavigator(
   {
     Home: HomeStack,
-    Locations: LocationsStack,
+    Events: EventsStack,
     Profile: ProfileStack,
     Settings: SettingsStack
   },

@@ -18,7 +18,9 @@ import axios from 'axios';
 class LocationDetailScreen extends Component {
 
   state = {
-    activities: []
+    activities: [],
+    //baseURL: "http://192.168.1.9:5000",
+    baseURL: "http://localhost:5000"
   }
 
   componentWillReceiveProps(nextProps) {
@@ -30,7 +32,7 @@ class LocationDetailScreen extends Component {
   async componentDidMount() {
     try{
       axios
-      .get(`http://192.168.1.9:5000/api/activities?city=${this.props.navigation.getParam('name', 'LocationName')}`)
+      .get(`${this.state.baseURL}/api/activities?city=${this.props.navigation.getParam('name', 'LocationName')}`)
       .then(res => {
        this.setState({activities: res.data})
       })
@@ -62,12 +64,9 @@ class LocationDetailScreen extends Component {
         {activities.map((activity, index) => {
           return <EventCard
             key={index}
-            name={activity.name}
+            activity={activity}
+            user={this.props.auth.user.username}
             navigation={this.props.navigation}
-            description={activity.description}
-            image={activity.image}
-            details={activity.details}
-            id={activity.id}
           />;
         })}
       </ScrollView>

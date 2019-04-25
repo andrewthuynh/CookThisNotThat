@@ -9,48 +9,46 @@ import {
     Text
 } from '@shoutem/ui';
 import { StyleSheet } from 'react-native';
+import axios from 'axios';
 
-const EventCard = (props) =>{
+class EventCard extends Component {
 
-        async newEvent = () => {
-            await 
-            props.navigation.navigate('NewEvent',
-                        {
-                            name: props.name,
-                            description: props.description,
-                            image: props.image,
-                            details: props.details,
-                            id: props.id
-                          })
-                        }
+    state = {
+        //baseURL: "http://192.168.1.9:5000",
+        baseURL: "http://localhost:5000"
+    }
+
+    newEvent = () => {
+        const event = {
+            owner: this.props.user,
+            activity: this.props.activity,
         }
+        axios.post(`${this.state.baseURL}/api/events/new`, event)
+        this.props.navigation.navigate('Events');
 
+    }
+
+    render() {
         return (
             <ImageBackground
                 styleName="featured"
-                source={{ uri: props.image }}
+                source={{ uri: this.props.activity.image }}
             >
                 <Tile>
-                    <Title>{props.name}</Title>
-                    <Subtitle styleName="sm-gutter-top">{props.description}</Subtitle>
-                    <Button 
-                        styleName="md-gutter-top" 
-                        onPress={() => 
-                        props.navigation.navigate('NewEvent',
-                        {
-                            name: props.name,
-                            description: props.description,
-                            image: props.image,
-                            details: props.details,
-                            id: props.id
-                          })
+                    <Title>{this.props.activity.name}</Title>
+                    <Subtitle styleName="sm-gutter-top">{this.props.activity.description}</Subtitle>
+                    <Button
+                        styleName="md-gutter-top"
+                        onPress={() =>
+                            this.newEvent()
                         }
-                        >
+                    >
                         <Text>CREATE EVENT</Text>
                     </Button>
                 </Tile>
             </ImageBackground>
         )
+    }
 }
 
 export default EventCard;

@@ -18,7 +18,9 @@ import SearchCard from '../components/SearchCard';
 class SearchScreen extends Component {
 
     state = {
-        users: []
+        users: [],
+        //baseURL: "http://192.168.1.9:5000",
+        baseURL: "http://localhost:5000"
     }
 
     componentDidMount() {
@@ -27,7 +29,7 @@ class SearchScreen extends Component {
 
         try {
             axios
-                .get(`http://192.168.1.9:5000/api/users/search?name=&username=${username}`)
+                .get(`${this.state.baseURL}/api/users/search?name=&username=${username}`)
                 .then(res => {
                     this.setState({ users: res.data })
                 })
@@ -45,7 +47,7 @@ class SearchScreen extends Component {
 
         try {
             axios
-                .get(`http://192.168.1.9:5000/api/users/search?name=${query}&username=${username}`)
+                .get(`${this.state.baseURL}/api/users/search?name=${query}&username=${username}`)
                 .then(res => {
                     this.setState({ users: res.data })
                 })

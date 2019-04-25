@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 import {
   View,
@@ -14,13 +14,13 @@ import {
 import { connect } from 'react-redux';
 import LocationCard from '../components/LocationCard';
 import { Ionicons } from '@expo/vector-icons';
-import FeaturedGallery from '../components/FeaturedGallery';
+import ActivityCard from '../components/ActivityCard';
 import axios from 'axios';
 
-class HomeScreen extends Component {
+class EventsScreen extends Component {
 
   state = {
-    cities: [],
+    events:[],
     //baseURL: "http://192.168.1.9:5000",
     baseURL: "http://localhost:5000"
   }
@@ -31,12 +31,12 @@ class HomeScreen extends Component {
     }
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     try{
       axios
-      .get(`${this.state.baseURL}/api/cities?name`)
+      .get(`${this.state.baseURL}/api/events/myEvents?owner=${this.props.auth.user.username}`)
       .then(res => {
-       this.setState({cities: res.data})
+       this.setState({events: res.data})
       })
     } catch (err) {
       console.log(err);
@@ -45,27 +45,19 @@ class HomeScreen extends Component {
 
   render() {
 
-    const { cities } = this.state;
-
-    let Featured = cities.map((city, index) => {
-      return (
-        <LocationCard 
-        key={index}
-        navigation={this.props.navigation} 
-        name={city.name} 
-        description={city.description}
-        details={city.details}
-        image={city.image}
-        style={styles.pad}
-        />
-      );
-    });
+    const {events} = this.state;
 
     return (
       <ScrollView>
         <View style={styles.container}>
-          <Title>Featured</Title>
-            {Featured}
+        {events.map((activity, index) => {
+          return <ActivityCard
+            key={index}
+            name={events.name}
+            navigation={this.props.navigation}
+            activity={activity}
+          />;
+        })}
         </View>
       </ScrollView>
     );
@@ -94,4 +86,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(EventsScreen);

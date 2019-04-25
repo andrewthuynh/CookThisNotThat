@@ -27,7 +27,7 @@ async componentDidMount() {
 
   try {
        await axios
-          .get(`http://192.168.1.9:5000/api/users/getInfo?username=${username}`)
+          .get(`http://localhost:5000/api/users/getInfo?username=${username}`)
           .then(res => {
               this.setState({ 
                 user: res.data,
@@ -97,17 +97,9 @@ async componentDidMount() {
             </Row>
             <View style={{ margin: 20 }} />
             <Divider styleName="line" />
-            <Button onPress={() => this.props.navigation.navigate('Detail')}>
-              <Text>Details</Text>
-            </Button>
+            <Title>Details</Title>
+            <Text>@{this.props.auth.user.username}</Text>
             <View style={{ margin: 7 }} />
-            <Button>
-              <Text>Friends</Text>
-            </Button>
-            <View style={{ margin: 7 }} />
-            <Button onPress={this.props.onLogout}>
-              <Text>Logout</Text>
-            </Button>
         </View>
       </ScrollView>
     );
