@@ -15,7 +15,6 @@ import {
 import { connect } from 'react-redux';
 import LocationCard from '../components/LocationCard';
 import { Ionicons } from '@expo/vector-icons';
-import FeaturedGallery from '../components/FeaturedGallery';
 import axios from 'axios';
 import { baseURL } from '../lib/baseUrl';
 import LocationCardSmall from '../components/LocationCardSmall';

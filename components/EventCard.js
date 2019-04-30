@@ -7,7 +7,8 @@ import {
     Button,
     ImageBackground,
     Text,
-    View
+    View,
+    TouchableOpacity
 } from '@shoutem/ui';
 import { StyleSheet } from 'react-native';
 import axios from 'axios';
@@ -36,6 +37,9 @@ class EventCard extends Component {
         return (
             <Fragment>
                 <View style={{ margin: 7 }} />
+                <TouchableOpacity
+                onPress={() =>this.newEvent()}
+                >
                 <ImageBackground
                     styleName="featured"
                     source={{ uri: this.props.activity.image }}
@@ -53,6 +57,7 @@ class EventCard extends Component {
                         </Button>
                     </Tile>
                 </ImageBackground>
+                </TouchableOpacity>
             </Fragment>
         )
     }

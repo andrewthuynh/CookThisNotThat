@@ -7,7 +7,8 @@ import {
     Button,
     ImageBackground,
     Text,
-    View
+    View,
+    TouchableOpacity
 } from '@shoutem/ui';
 import { StyleSheet } from 'react-native';
 
@@ -16,6 +17,15 @@ const LocationCard = (props) =>{
         return (
             <Fragment>
             <View style={{ margin: 7 }} />
+            <TouchableOpacity
+                onPress={() => props.navigation.navigate('LocationDetail',
+                {
+                    name: props.name,
+                    description: props.description,
+                    image: props.image,
+                    details: props.details
+                  })}
+            >
             <ImageBackground
                 styleName="featured"
                 source={{ uri: props.image }}
@@ -38,6 +48,7 @@ const LocationCard = (props) =>{
                     </Button>
                 </Tile>
             </ImageBackground>
+            </TouchableOpacity>
             </Fragment>
         )
 }
