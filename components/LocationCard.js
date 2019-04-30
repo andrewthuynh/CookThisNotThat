@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import {
     Heading,
     Title,
@@ -6,13 +6,16 @@ import {
     Subtitle,
     Button,
     ImageBackground,
-    Text
+    Text,
+    View
 } from '@shoutem/ui';
 import { StyleSheet } from 'react-native';
 
 const LocationCard = (props) =>{
 
         return (
+            <Fragment>
+            <View style={{ margin: 7 }} />
             <ImageBackground
                 styleName="featured"
                 source={{ uri: props.image }}
@@ -35,6 +38,7 @@ const LocationCard = (props) =>{
                     </Button>
                 </Tile>
             </ImageBackground>
+            </Fragment>
         )
 }
 

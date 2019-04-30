@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import {
     Heading,
     Title,
@@ -6,47 +6,54 @@ import {
     Subtitle,
     Button,
     ImageBackground,
-    Text
+    Text,
+    View
 } from '@shoutem/ui';
 import { StyleSheet } from 'react-native';
 import axios from 'axios';
+import {baseURL} from '../lib/baseUrl';
 
 class EventCard extends Component {
 
     state = {
-        //baseURL: "http://192.168.1.9:5000",
-        baseURL: "http://localhost:5000"
+    
     }
 
     newEvent = () => {
         const event = {
             owner: this.props.user,
-            activity: this.props.activity,
+            name: this.props.activity.name,
+            image: this.props.activity.image,
+            city: this.props.activity.city,
+            details: this.props.activity.details
         }
-        axios.post(`${this.state.baseURL}/api/events/new`, event)
+        axios.post(`${baseURL}/api/events/new`, event)
         this.props.navigation.navigate('Events');
 
     }
 
     render() {
         return (
-            <ImageBackground
-                styleName="featured"
-                source={{ uri: this.props.activity.image }}
-            >
-                <Tile>
-                    <Title>{this.props.activity.name}</Title>
-                    <Subtitle styleName="sm-gutter-top">{this.props.activity.description}</Subtitle>
-                    <Button
-                        styleName="md-gutter-top"
-                        onPress={() =>
-                            this.newEvent()
-                        }
-                    >
-                        <Text>CREATE EVENT</Text>
-                    </Button>
-                </Tile>
-            </ImageBackground>
+            <Fragment>
+                <View style={{ margin: 7 }} />
+                <ImageBackground
+                    styleName="featured"
+                    source={{ uri: this.props.activity.image }}
+                >
+                    <Tile>
+                        <Title>{this.props.activity.name}</Title>
+                        <Subtitle styleName="sm-gutter-top">{this.props.activity.description}</Subtitle>
+                        <Button
+                            styleName="md-gutter-top"
+                            onPress={() =>
+                                this.newEvent()
+                            }
+                        >
+                            <Text>CREATE EVENT</Text>
+                        </Button>
+                    </Tile>
+                </ImageBackground>
+            </Fragment>
         )
     }
 }

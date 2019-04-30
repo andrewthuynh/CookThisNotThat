@@ -8,10 +8,11 @@ import {
   RESET_ERRORS
 } from "./types";
 import {AsyncStorage} from 'react-native';
+import {baseURL} from '../lib/baseUrl';
 // Register User
 export const registerUser = (userData) => dispatch => {
   axios
-    .post("http://localhost:5000/api/users/register", userData)
+    .post(`${baseURL}/api/users/register`, userData)
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -22,7 +23,7 @@ export const registerUser = (userData) => dispatch => {
 // Login - get user token
 export const loginUser = userData => dispatch => {
   axios
-    .post("http://localhost:5000/api/users/login", userData)
+    .post(`${baseURL}/api/users/login`, userData)
     .then(res => {
       // Save to localStorage
       // Set token to localStorage

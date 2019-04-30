@@ -14,13 +14,13 @@ import {
 import { connect } from 'react-redux';
 import EventCard from '../components/EventCard';
 import axios from 'axios';
+import {baseURL} from '../lib/baseUrl';
 
 class LocationDetailScreen extends Component {
 
   state = {
     activities: [],
-    //baseURL: "http://192.168.1.9:5000",
-    baseURL: "http://localhost:5000"
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -32,7 +32,7 @@ class LocationDetailScreen extends Component {
   async componentDidMount() {
     try{
       axios
-      .get(`${this.state.baseURL}/api/activities?city=${this.props.navigation.getParam('name', 'LocationName')}`)
+      .get(`${baseURL}/api/activities?city=${this.props.navigation.getParam('name', 'LocationName')}`)
       .then(res => {
        this.setState({activities: res.data})
       })

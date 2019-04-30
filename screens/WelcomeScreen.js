@@ -77,10 +77,6 @@ class WelcomeScreen extends Component {
                 <Button onPress={() => this.props.navigation.navigate('SignUp')}>
                     <Text>Sign up</Text>
                 </Button>
-                <View style={{ margin: 40 }} />
-                <Button onPress={() => this.props.navigation.navigate('Dashboard')}>
-                    <Text>Continue with Facebook </Text>
-                </Button>
             </Screen>
         );
     }
@@ -89,7 +85,7 @@ class WelcomeScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        backgroundColor: '#00e68a'
+        backgroundColor: '#F5F5F5'
     },
     button: {
         marginBottom: 20,

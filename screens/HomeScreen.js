@@ -16,13 +16,12 @@ import LocationCard from '../components/LocationCard';
 import { Ionicons } from '@expo/vector-icons';
 import FeaturedGallery from '../components/FeaturedGallery';
 import axios from 'axios';
+import {baseURL} from '../lib/baseUrl';
 
 class HomeScreen extends Component {
 
   state = {
     cities: [],
-    //baseURL: "http://192.168.1.9:5000",
-    baseURL: "http://localhost:5000"
   }
 
   componentWillReceiveProps(nextProps) {
@@ -34,7 +33,7 @@ class HomeScreen extends Component {
   async componentDidMount() {
     try{
       axios
-      .get(`${this.state.baseURL}/api/cities?name`)
+      .get(`${baseURL}/api/cities?name`)
       .then(res => {
        this.setState({cities: res.data})
       })

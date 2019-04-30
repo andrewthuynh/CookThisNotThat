@@ -22,6 +22,7 @@ class SignUpScreen extends Component {
         name: '',
         password: '',
         password2: '',
+        image: '',
     }
 
     componentDidMount() {
@@ -32,13 +33,14 @@ class SignUpScreen extends Component {
       }
 
     register = async () => {
-        const { email, password, password2, name, username, errors } = this.state
+        const { email, password, password2, name, username, image, errors } = this.state
         const regData = {
             name,
             username,
             email,
             password,
             password2,
+            image
         }
         try {
             console.log(regData);
@@ -98,6 +100,11 @@ class SignUpScreen extends Component {
                     secureTextEntry
                 />
                 <View style={{ margin: 7 }} />
+                <TextInput
+                    placeholder='Profile image (optional)'
+                    onChangeText={(image) => this.setState({ image })}
+                />
+                <View style={{ margin: 7 }} />
                 <Button onPress={this.register}>
                     <Text>Register</Text>
                 </Button>
@@ -113,7 +120,7 @@ class SignUpScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        backgroundColor: '#00e68a'
+        backgroundColor: '#F5F5F5'
     },
     button: {
         marginBottom: 20,

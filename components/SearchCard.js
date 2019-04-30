@@ -6,7 +6,8 @@ import {
     Icon,
     Button,
     Text,
-    View
+    View,
+    Caption
 } from '@shoutem/ui';
 import { StyleSheet } from 'react-native';
 
@@ -16,7 +17,8 @@ const SearchCard = (props) => {
         <View>
             <Row>
                 <Icon name="user-profile" />
-                <Subtitle styleName="top">{props.name}</Subtitle>
+                <Subtitle>{props.name}</Subtitle>
+                <Caption>@{props.username}</Caption>
                 <Button>
                     <Text>ADD</Text>
                 </Button>

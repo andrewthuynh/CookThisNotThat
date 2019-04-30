@@ -20,7 +20,6 @@ import {
 } from 'react-navigation';
 
 import WelcomeScreen from './screens/WelcomeScreen';
-import DashBoardScreen from './screens/DashBoardScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import HomeScreen from './screens/HomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -55,12 +54,24 @@ const HomeStack = createStackNavigator({
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: 'Home',
-        headerStyle: {height: 20}
+        headerStyle: {height: 40}
       };
     }
   },
   LocationDetail: {
     screen: LocationDetailScreen
+  },
+});
+
+const EventsStack = createStackNavigator({
+  Events: {
+    screen: EventsScreen,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: 'Events',
+        headerStyle: {height: 40}
+      };
+    }
   },
   NewEvent: {
     screen: NewEventScreen
@@ -70,32 +81,22 @@ const HomeStack = createStackNavigator({
   }
 });
 
-const EventsStack = createStackNavigator({
-  Events: {
-    screen: EventsScreen,
-    navigationOptions: ({ navigation }) => {
-      return {
-        headerTitle: 'My Events',
-        headerStyle: {height: 20}
-      };
-    }
-  }
-});
-
 const ProfileStack = createStackNavigator({
   Profile: {
     screen: ProfileScreen,
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: 'Profile',
-        headerStyle: {height: 20}
+        headerStyle: {height: 40}
       };
     }
   },
   Detail: {
     screen: Detail
+  },
+  Search: {
+    screen: SearchScreen
   }
-
 });
 const SettingsStack = createStackNavigator({
   Settings: {
@@ -103,7 +104,7 @@ const SettingsStack = createStackNavigator({
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: 'Settings',
-        headerStyle: {height: 20}
+        headerStyle: {height: 40}
       };
     }
   }
@@ -149,7 +150,11 @@ const DashboardTabNavigator = createBottomTabNavigator(
       activeTintColor: 'red',
       inactiveTintColor: '#d3d3d3',
       safeAreaInset: { bottom: 'never', top: 'never' },
-      showIcon: true
+      showIcon: true,
+      style: {
+        borderTopWidth: 2,
+        borderTopColor: 'black'
+      }
     },
   }
 );

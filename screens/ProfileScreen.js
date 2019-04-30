@@ -15,11 +15,13 @@ import {
 import { connect } from 'react-redux';
 import { logoutUser } from '../actions/authActions';
 import axios from 'axios';
+import {baseURL} from '../lib/baseUrl';
 
 class ProfileScreen extends Component {
 
   state= {
-    image: ""
+    image: "https://www.palmkvistmaleri.se/wp-content/uploads/2018/02/default.jpg",
+    user: {}
   }
 
 async componentDidMount() {
@@ -27,7 +29,7 @@ async componentDidMount() {
 
   try {
        await axios
-          .get(`http://localhost:5000/api/users/getInfo?username=${username}`)
+          .get(`${baseURL}/api/users/getInfo?username=${username}`)
           .then(res => {
               this.setState({ 
                 user: res.data,
@@ -42,7 +44,23 @@ async componentDidMount() {
   }
 }
 
+formatDate = (date) => {
+  var d = new Date(date);
+  d.setDate(d.getDate() + 1)
+  month = '' + (d.getMonth() + 1),
+  day = '' + d.getDate(),
+  year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [month, day, year].join('/');
+}
+
   render() {
+
+    const {user} = this.state;
+
     return (
       <ScrollView>
         <View style={{ flex: 1, alignItems: 'center' }}>
@@ -54,51 +72,19 @@ async componentDidMount() {
               source={{ uri: this.state.image}}
             />
             <View style={{ margin: 7 }} />
-
-            <Row>
-              <Title>Friends</Title>
-              <Button onPress={() => this.props.navigation.navigate('Search', {username: this.props.auth.user.username})}>
-                <Text>ADD FRIEND</Text>
-              </Button>
-            </Row>
-            <Row styleName="small">
-              <Image
-                styleName="small-avatar"
-                source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-9.png' }}
-              />
-              <Image
-                styleName="small-avatar"
-                source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-8.png' }}
-              />
-              <Image
-                styleName="small-avatar"
-                source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-7.png' }}
-              />
-              <Image
-                styleName="small-avatar"
-                source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-6.png' }}
-              />
-              <Image
-                styleName="small-avatar"
-                source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-5.png' }}
-              />
-              <Image
-                styleName="small-avatar"
-                source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-4.png' }}
-              />
-              <Image
-                styleName="small-avatar"
-                source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-3.png' }}
-              />
-              <Image
-                styleName="small-avatar"
-                source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-2.png' }}
-              />
-            </Row>
-            <View style={{ margin: 20 }} />
-            <Divider styleName="line" />
             <Title>Details</Title>
-            <Text>@{this.props.auth.user.username}</Text>
+            <Row>
+            <Text>Username:</Text>
+            <Text>@{user.username}</Text>
+            </Row>
+            <Row>
+            <Text>Email:</Text>
+            <Text>{user.email}</Text>
+            </Row>
+            <Row>
+            <Text>Date created:</Text>
+            <Text>{this.formatDate(user.date)}</Text>
+            </Row>
             <View style={{ margin: 7 }} />
         </View>
       </ScrollView>
