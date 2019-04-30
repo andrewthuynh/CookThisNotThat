@@ -9,19 +9,24 @@ import {
   Button,
   Image,
   Divider,
-  Row
+  Row,
+  Heading
 } from '@shoutem/ui';
 import { connect } from 'react-redux';
 import LocationCard from '../components/LocationCard';
 import { Ionicons } from '@expo/vector-icons';
 import FeaturedGallery from '../components/FeaturedGallery';
 import axios from 'axios';
-import {baseURL} from '../lib/baseUrl';
+import { baseURL } from '../lib/baseUrl';
+import LocationCardSmall from '../components/LocationCardSmall';
 
 class HomeScreen extends Component {
 
   state = {
-    cities: [],
+    featured: [],
+    Asia: [],
+    us: [],
+    adventure: []
   }
 
   componentWillReceiveProps(nextProps) {
@@ -30,32 +35,80 @@ class HomeScreen extends Component {
     }
   }
 
-  async componentDidMount() {
-    try{
-      axios
-      .get(`${baseURL}/api/cities?name`)
-      .then(res => {
-       this.setState({cities: res.data})
-      })
+  getCities = async (tag) => {
+    try {
+      await axios
+        .get(`${baseURL}/api/cities/?tag=${tag}`)
+        .then(res => {
+          this.setState({
+            [tag]: res.data
+          })
+        })
     } catch (err) {
       console.log(err);
     }
   }
 
+  componentDidMount() {
+    this.getCities('featured');
+    this.getCities('Asia');
+    this.getCities('us');
+    this.getCities('adventure');
+  }
+
   render() {
 
-    const { cities } = this.state;
+    const { featured, Asia, us, adventure } = this.state;
 
-    let Featured = cities.map((city, index) => {
+    let Featured = featured.map((city, index) => {
       return (
-        <LocationCard 
-        key={index}
-        navigation={this.props.navigation} 
-        name={city.name} 
-        description={city.description}
-        details={city.details}
-        image={city.image}
-        style={styles.pad}
+        <LocationCard
+          key={index}
+          navigation={this.props.navigation}
+          name={city.name}
+          description={city.description}
+          details={city.details}
+          image={city.image}
+          style={styles.pad}
+        />
+      );
+    });
+    let AsiaList = Asia.map((city, index) => {
+      return (
+        <LocationCardSmall
+          key={index}
+          navigation={this.props.navigation}
+          name={city.name}
+          description={city.description}
+          details={city.details}
+          image={city.image}
+          style={styles.pad}
+        />
+      );
+    });
+    let USList = us.map((city, index) => {
+      return (
+        <LocationCardSmall
+          key={index}
+          navigation={this.props.navigation}
+          name={city.name}
+          description={city.description}
+          details={city.details}
+          image={city.image}
+          style={styles.pad}
+        />
+      );
+    });
+    let AdventureList = adventure.map((city, index) => {
+      return (
+        <LocationCardSmall
+          key={index}
+          navigation={this.props.navigation}
+          name={city.name}
+          description={city.description}
+          details={city.details}
+          image={city.image}
+          style={styles.pad}
         />
       );
     });
@@ -63,8 +116,35 @@ class HomeScreen extends Component {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <Title>Featured</Title>
-            {Featured}
+          <Heading>Featured</Heading>
+          {Featured}
+          <View style={{ margin: 15 }} />
+          <Heading>Categories</Heading>
+          <View style={{ margin: 7 }} />
+          <Divider styleName="line" />
+          <Title>Asia</Title>
+          <ScrollView
+            horizontal={true}
+          >
+            {AsiaList}
+          </ScrollView>
+          <View style={{ margin: 7 }} />
+          <Divider styleName="line" />
+          <Title>United States</Title>
+          <ScrollView
+            horizontal={true}
+          >
+            {USList}
+          </ScrollView>
+          <View style={{ margin: 7 }} />
+          <Divider styleName="line" />
+          <Title>Adventure</Title>
+          <ScrollView
+            horizontal={true}
+          >
+            {AdventureList}
+          </ScrollView>
+          <View style={{ margin: 7 }} />
         </View>
       </ScrollView>
     );

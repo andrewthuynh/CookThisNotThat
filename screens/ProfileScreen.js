@@ -75,7 +75,7 @@ formatDate = (date) => {
             <Title>Details</Title>
             <Row>
             <Text>Username:</Text>
-            <Text>@{user.username}</Text>
+            <Text>{user.username}</Text>
             </Row>
             <Row>
             <Text>Email:</Text>
