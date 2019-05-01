@@ -16,12 +16,12 @@ Fully developed by Andrew Huynh
 ## Tools
 
 ### Frontend
-[React Native](https://facebook.github.io/react-native/)
-[Shoutem UI Toolkit](https://shoutem.github.io/docs/ui-toolkit/introduction)
-[React-redux](https://github.com/reduxjs/react-redux)
-[axios](https://github.com/axios/axios)
+1. [React Native](https://facebook.github.io/react-native/)
+2. [Shoutem UI Toolkit](https://shoutem.github.io/docs/ui-toolkit/introduction)
+3. [React-redux](https://github.com/reduxjs/react-redux)
+4. [axios](https://github.com/axios/axios)
 
 ### Backend
-[Node.js](https://nodejs.org/en/)
-[Mongoose](https://mongoosejs.com/)
-[Express](https://expressjs.com/)
+1. [Node.js](https://nodejs.org/en/)
+2. [Mongoose](https://mongoosejs.com/)
+3. [Express](https://expressjs.com/)
