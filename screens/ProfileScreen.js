@@ -46,7 +46,7 @@ async componentDidMount() {
 
 formatDate = (date) => {
   var d = new Date(date);
-  d.setDate(d.getDate() + 1)
+  d.setDate(d.getDate())
   month = '' + (d.getMonth() + 1),
   day = '' + d.getDate(),
   year = d.getFullYear();

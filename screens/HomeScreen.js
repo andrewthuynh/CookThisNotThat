@@ -25,7 +25,8 @@ class HomeScreen extends Component {
     featured: [],
     Asia: [],
     us: [],
-    adventure: []
+    adventure: [],
+    eu: []
   }
 
   componentWillReceiveProps(nextProps) {
@@ -53,11 +54,12 @@ class HomeScreen extends Component {
     this.getCities('Asia');
     this.getCities('us');
     this.getCities('adventure');
+    this.getCities('eu');
   }
 
   render() {
 
-    const { featured, Asia, us, adventure } = this.state;
+    const { featured, Asia, us, adventure, eu } = this.state;
 
     let Featured = featured.map((city, index) => {
       return (
@@ -111,6 +113,19 @@ class HomeScreen extends Component {
         />
       );
     });
+    let EUList = eu.map((city, index) => {
+      return (
+        <LocationCardSmall
+          key={index}
+          navigation={this.props.navigation}
+          name={city.name}
+          description={city.description}
+          details={city.details}
+          image={city.image}
+          style={styles.pad}
+        />
+      );
+    });
 
     return (
       <ScrollView>
@@ -142,6 +157,14 @@ class HomeScreen extends Component {
             horizontal={true}
           >
             {AdventureList}
+          </ScrollView>
+          <View style={{ margin: 7 }} />
+          <Divider styleName="line" />
+          <Title>Europe</Title>
+          <ScrollView
+            horizontal={true}
+          >
+            {EUList}
           </ScrollView>
           <View style={{ margin: 7 }} />
         </View>

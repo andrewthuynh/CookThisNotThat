@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { StyleSheet, Alert } from 'react-native';
+import { StyleSheet, Alert, ImageBackground } from 'react-native';
 import {
     View,
     Screen,
@@ -69,6 +69,7 @@ class SignUpScreen extends Component {
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
+                <ImageBackground source={{uri: 'https://static.collectui.com/shots/3258249/90-s-pattern-large'}} style={{width: '100%', height: '100%'}}>
                 <Title style={styles.text}> Sign Up</Title>
                 <View style={{ margin: 7 }} />
                 <TextInput
@@ -112,6 +113,7 @@ class SignUpScreen extends Component {
                 <Button onPress={() => this.props.navigation.navigate('Welcome')}>
                     <Text>Back</Text>
                 </Button>
+                </ImageBackground>
             </Screen>
         );
     }
@@ -119,7 +121,7 @@ class SignUpScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        
         backgroundColor: '#F5F5F5'
     },
     button: {
@@ -127,7 +129,8 @@ const styles = StyleSheet.create({
     },
     text: {
         paddingTop: 40,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: 'white'
     }
 });
 
