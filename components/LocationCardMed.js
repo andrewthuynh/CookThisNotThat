@@ -6,11 +6,12 @@ import {
     Card,
     Text,
     View,
-    TouchableOpacity
+    TouchableOpacity,
+    Title
 } from '@shoutem/ui';
 import { StyleSheet } from 'react-native';
 
-const LocationCardSmall = (props) =>{
+const LocationCardMed = (props) =>{
 
         return (
             <Fragment>
@@ -26,12 +27,12 @@ const LocationCardSmall = (props) =>{
                   })}
             >
             <Image
-                styleName="medium-wide"
+                styleName="large-banner"
                 source={{ uri: props.image }}
             />
                 <View styleName="content">
-                    <Subtitle>{props.name}</Subtitle>
-                    <Text>{props.description}</Text>
+                    <Title>{props.name}</Title>
+                    <Subtitle>{props.description}</Subtitle>
                 </View>
             </TouchableOpacity>
             </Card>
@@ -39,4 +40,4 @@ const LocationCardSmall = (props) =>{
         )
 }
 
-export default LocationCardSmall;
+export default LocationCardMed;

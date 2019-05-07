@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 import {
   View,
@@ -12,33 +12,32 @@ import {
   Row,
   Heading
 } from '@shoutem/ui';
-import { connect } from 'react-redux';
 import LocationCard from '../components/LocationCard';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
-import { baseURL } from '../lib/baseUrl';
+import {baseURL} from '../lib/baseUrl';
 import LocationCardSmall from '../components/LocationCardSmall';
 
-class HomeScreen extends Component {
+class CategoriesScreen extends Component {
 
   state = {
-    featured: [],
-    Asia: [],
-    us: [],
-    adventure: [],
-    eu: []
+    vegan: [],
+    gluten: [],
+    dairy: [],
+    halal: [],
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.auth.isAuthenticated) {
-      this.props.navigation.navigate('Welcome');
-    }
+  componentDidMount() {
+    this.getCities('vegan');
+    this.getCities('gluten');
+    this.getCities('dairy');
+    this.getCities('halal');
   }
 
   getCities = async (tag) => {
     try {
       await axios
-        .get(`${baseURL}/api/cities/?tag=${tag}`)
+        .get(`${baseURL}/api/recipes/?tag=${tag}`)
         .then(res => {
           this.setState({
             [tag]: res.data
@@ -49,32 +48,12 @@ class HomeScreen extends Component {
     }
   }
 
-  componentDidMount() {
-    this.getCities('featured');
-    this.getCities('Asia');
-    this.getCities('us');
-    this.getCities('adventure');
-    this.getCities('eu');
-  }
-
   render() {
 
-    const { featured, Asia, us, adventure, eu } = this.state;
+    const { vegan, gluten, dairy, halal } = this.state;
 
-    let Featured = featured.map((city, index) => {
-      return (
-        <LocationCard
-          key={index}
-          navigation={this.props.navigation}
-          name={city.name}
-          description={city.description}
-          details={city.details}
-          image={city.image}
-          style={styles.pad}
-        />
-      );
-    });
-    let AsiaList = Asia.map((city, index) => {
+    
+    let VeganList = vegan.map((city, index) => {
       return (
         <LocationCardSmall
           key={index}
@@ -87,7 +66,7 @@ class HomeScreen extends Component {
         />
       );
     });
-    let USList = us.map((city, index) => {
+    let GlutenList = gluten.map((city, index) => {
       return (
         <LocationCardSmall
           key={index}
@@ -100,7 +79,7 @@ class HomeScreen extends Component {
         />
       );
     });
-    let AdventureList = adventure.map((city, index) => {
+    let DairyList = dairy.map((city, index) => {
       return (
         <LocationCardSmall
           key={index}
@@ -113,7 +92,7 @@ class HomeScreen extends Component {
         />
       );
     });
-    let EUList = eu.map((city, index) => {
+    let HalalList = halal.map((city, index) => {
       return (
         <LocationCardSmall
           key={index}
@@ -126,45 +105,43 @@ class HomeScreen extends Component {
         />
       );
     });
+
 
     return (
       <ScrollView>
         <View style={styles.container}>
-          <Heading>Featured</Heading>
-          {Featured}
-          <View style={{ margin: 15 }} />
-          <Heading>Categories</Heading>
+        <Heading>Categories</Heading>
           <View style={{ margin: 7 }} />
           <Divider styleName="line" />
-          <Title>Asia</Title>
+          <Title>Vegan</Title>
           <ScrollView
             horizontal={true}
           >
-            {AsiaList}
+            {VeganList}
           </ScrollView>
           <View style={{ margin: 7 }} />
           <Divider styleName="line" />
-          <Title>United States</Title>
+          <Title>Gluten-free</Title>
           <ScrollView
             horizontal={true}
           >
-            {USList}
+            {GlutenList}
           </ScrollView>
           <View style={{ margin: 7 }} />
           <Divider styleName="line" />
-          <Title>Adventure</Title>
+          <Title>Dairy-free</Title>
           <ScrollView
             horizontal={true}
           >
-            {AdventureList}
+            {DairyList}
           </ScrollView>
           <View style={{ margin: 7 }} />
           <Divider styleName="line" />
-          <Title>Europe</Title>
+          <Title>Halal</Title>
           <ScrollView
             horizontal={true}
           >
-            {EUList}
+            {HalalList}
           </ScrollView>
           <View style={{ margin: 7 }} />
         </View>
@@ -177,22 +154,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-
+    //backgroundColor: "#F5F5F5"
   },
   pad: {
     padding: 30
   }
 });
 
-const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
-});
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onLogout: () => dispatch(logoutUser())
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default CategoriesScreen;

@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import { Provider } from "react-redux";
-import store from './store';
 import AppNav from './AppNav';
-import jwt_decode from "jwt-decode";
-import setAuthToken from "./utils/setAuthToken";
-import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { AsyncStorage } from 'react-native';
 import { Font, AppLoading } from 'expo';
 
@@ -33,26 +28,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    // Check for token to keep user logged in
     console.disableYellowBox = true;
-    // Set auth token header auth
-    const token = await AsyncStorage.getItem('jwtToken');
-    if (token !== null) {
-      setAuthToken(token);
-      // Decode token and get user info and exp
-      const decoded = jwt_decode(token);
-      // Set user and isAuthenticated
-      store.dispatch(setCurrentUser(decoded));
-      // Check for expired token
-      const currentTime = Date.now() / 1000; // to get in milliseconds
-      if (decoded.exp < currentTime) {
-        // Logout user
-        store.dispatch(logoutUser());
-
-        // Redirect to login
-        window.location.href = "./login";
-      }
-    }
   }
 
   render() {
@@ -62,9 +38,7 @@ class App extends Component {
     }
 
     return (
-      <Provider store={store}>
         <AppNav />
-      </Provider>
     );
   }
 }

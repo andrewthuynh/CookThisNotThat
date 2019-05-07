@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Button, SafeAreaView, Image } from 'react-native';
 /**
- * - AppSwitchNavigator
- *    - WelcomeScreen
- *      - Login Button
- *      - Sign Up Button
  * - DashboardTabNavigator
  *    - Tab 1 - FeedStack
  *    - Tab 2 - ProfileStack
@@ -12,23 +8,18 @@ import { View, Text, StyleSheet, Button, SafeAreaView } from 'react-native';
  */
 
 import {
-  createSwitchNavigator,
   createAppContainer,
-  createDrawerNavigator,
   createBottomTabNavigator,
   createStackNavigator
 } from 'react-navigation';
 
-import WelcomeScreen from './screens/WelcomeScreen';
-import SignUpScreen from './screens/SignUpScreen';
-import HomeScreen from './screens/HomeScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import SettingsScreen from './screens/SettingsScreen';
-import LocationDetailScreen from './screens/LocationDetailScreen';
-import NewEventScreen  from './screens/NewEventScreen';
+import FeaturedScreen from './screens/FeaturedScreen';
 import SearchScreen from './screens/SearchScreen';
-import EventsScreen from './screens/EventsScreen';
+import FavoritesScreen from './screens/FavoritesScreen';
+import LocationDetailScreen from './screens/LocationDetailScreen';
+import CategoriesScreen from './screens/CategoriesScreen';
 import { Ionicons } from '@expo/vector-icons';
+
 
 class AppNav extends Component {
 
@@ -48,13 +39,18 @@ const Detail = props => (
   </View>
 );
 
-const HomeStack = createStackNavigator({
-  Home: {
-    screen: HomeScreen,
+const FeaturedStack = createStackNavigator({
+  Featured: {
+    screen: FeaturedScreen,
     navigationOptions: ({ navigation }) => {
       return {
-        headerTitle: 'Home',
-        headerStyle: {height: 40}
+        headerTitle: (
+          <Image
+          style={{width: 100, height: 100, resizeMode: 'contain', alignSelf: 'center'}}
+            source={require('./assets/CTNThead.png')}
+          />
+        ),
+        headerStyle: {height: 50}
       };
     }
   },
@@ -63,66 +59,81 @@ const HomeStack = createStackNavigator({
   },
 });
 
-const EventsStack = createStackNavigator({
-  Events: {
-    screen: EventsScreen,
+const CategoriesStack = createStackNavigator({
+  Categories: {
+    screen: CategoriesScreen,
     navigationOptions: ({ navigation }) => {
       return {
-        headerTitle: 'Events',
-        headerStyle: {height: 40}
+        headerTitle: (
+          <Image
+          style={{width: 100, height: 100, resizeMode: 'contain', alignSelf: 'center'}}
+            source={require('./assets/CTNThead.png')}
+          />
+        ),
+        headerStyle: {height: 50}
       };
     }
   },
-  NewEvent: {
-    screen: NewEventScreen
+  LocationDetail: {
+    screen: LocationDetailScreen
   },
-  Search: {
-    screen: SearchScreen
-  }
 });
 
-const ProfileStack = createStackNavigator({
-  Profile: {
-    screen: ProfileScreen,
+const SearchStack = createStackNavigator({
+  Search: {
+    screen: SearchScreen,
     navigationOptions: ({ navigation }) => {
       return {
-        headerTitle: 'Profile',
-        headerStyle: {height: 40}
+        headerTitle: (
+          <Image
+          style={{width: 100, height: 100, resizeMode: 'contain', alignSelf: 'center'}}
+            source={require('./assets/CTNThead.png')}
+          />
+        ),
+        headerStyle: {height: 50}
       };
     }
   },
   Detail: {
     screen: Detail
   },
-  Search: {
-    screen: SearchScreen
-  }
+  LocationDetail: {
+    screen: LocationDetailScreen
+  },
 });
-const SettingsStack = createStackNavigator({
-  Settings: {
-    screen: SettingsScreen,
+const FavoritesStack = createStackNavigator({
+  Favorites: {
+    screen: FavoritesScreen,
     navigationOptions: ({ navigation }) => {
       return {
-        headerTitle: 'Settings',
-        headerStyle: {height: 40}
+        headerTitle: (
+          <Image
+          style={{width: 100, height: 100, resizeMode: 'contain', alignSelf: 'center'}}
+            source={require('./assets/CTNThead.png')}
+          />
+        ),
+        headerStyle: {height: 50}
       };
     }
-  }
+  },
+  LocationDetail: {
+    screen: LocationDetailScreen
+  },
 });
 
 const getTabBarIcon = (navigation, focused, tintColor) => {
   const { routeName } = navigation.state;
   let IconComponent = Ionicons;
   let iconName;
-  if (routeName === 'Home') {
-    iconName = `ios-home`;
+  if (routeName === 'Featured') {
+    iconName = `ios-bonfire`;
     // We want to add badges to home tab icon
-  }else if (routeName === 'Events') {
-    iconName = `ios-boat`;
-  } else if (routeName === 'Profile') {
-    iconName = `ios-body`;
-  } else if (routeName === 'Settings') {
-    iconName = `ios-settings`;
+  }else if (routeName === 'Categories') {
+    iconName = `ios-grid`;
+  } else if (routeName === 'Search') {
+    iconName = `ios-search`;
+  } else if (routeName === 'Favorites') {
+    iconName = `ios-heart`;
   } 
 
   // You can return any component that you like here!
@@ -131,10 +142,10 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
 
 const DashboardTabNavigator = createBottomTabNavigator(
   {
-    Home: HomeStack,
-    Events: EventsStack,
-    Profile: ProfileStack,
-    Settings: SettingsStack
+    Featured: FeaturedStack,
+    Categories: CategoriesStack,
+    Search: SearchStack,
+    Favorites: FavoritesStack
   },
   {
     defaultNavigationOptions: ({ navigation }) => {
@@ -148,7 +159,7 @@ const DashboardTabNavigator = createBottomTabNavigator(
     },
     tabBarOptions: {
       activeTintColor: 'red',
-      inactiveTintColor: '#d3d3d3',
+      inactiveTintColor: '#505050',
       safeAreaInset: { bottom: 'never', top: 'never' },
       showIcon: true,
       style: {
@@ -159,13 +170,7 @@ const DashboardTabNavigator = createBottomTabNavigator(
   }
 );
 
-const AppSwitchNavigator = createSwitchNavigator({
-  Welcome: { screen: WelcomeScreen },
-  Dashboard: { screen: DashboardTabNavigator },
-  SignUp: { screen: SignUpScreen }
-});
-
-const AppContainer = createAppContainer(AppSwitchNavigator);
+const AppContainer = createAppContainer(DashboardTabNavigator);
 
 const styles = StyleSheet.create({
   container: {
