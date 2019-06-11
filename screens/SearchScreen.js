@@ -74,6 +74,7 @@ class SearchScreen extends Component {
                             style={styles.search}
                             autoCapitalize="none"
                         />
+                        <View style={{ margin: 4 }} />
                         <Button
                             styleName="secondary"
                             onPress={() => this.getCities(search)}
