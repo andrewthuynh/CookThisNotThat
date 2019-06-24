@@ -120,7 +120,7 @@ class LocationDetailScreen extends Component {
                     }}>
                     <Ionicons name='ios-close' size={50} color='grey' />
                   </TouchableOpacity>
-                  <Heading>Current Ingredient</Heading>
+                  <Heading>Selected Ingredient</Heading>
                   <View style={{ margin: 7 }} />
                   <Button
                     styleName="secondary"
